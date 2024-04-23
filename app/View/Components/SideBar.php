@@ -2,21 +2,26 @@
 
 namespace App\View\Components;
 
+use Closure;
 use \App\Models\Category;
 use Illuminate\View\Component;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
 
-class AppLayout extends Component
+class SideBar extends Component
 {
     /**
-     * Get the view / contents that represents the component.
+     * Create a new component instance.
      */
-    public function __construct(public ?string $metaTitle = null, public ?string $metaDescription = null)
+    public function __construct()
     {
+        //
     }
 
-    public function render(): View
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
     {
         $categories = Category::query()
             ->join('category_posts', 'categories.id', '=', 'category_posts.category_id')
@@ -25,6 +30,6 @@ class AppLayout extends Component
             ->orderByDesc('total')
             ->limit(5)
             ->get();
-        return view('layouts.app', compact('categories'));
+        return view('components.side-bar', compact('categories'));
     }
 }

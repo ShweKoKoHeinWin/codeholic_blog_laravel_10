@@ -19,7 +19,9 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->realText(50),
-            'slug' => Str::slug('title'),
+            'slug' => function (array $post) {
+                return Str::slug($post['title']);
+            },
             'thumbnail' => fake()->imageUrl(),
             'body' => fake()->realText(3000),
             'active' => fake()->boolean(),

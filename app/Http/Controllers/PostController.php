@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
 {
@@ -43,15 +45,43 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        if (!$post->active || $post->published_at > Carbon::now()) {
+            throw new NotFoundHttpException();
+        }
+
+        $next = Post::query()
+            ->where('active', '=', true)
+            ->whereDate('published_at', '<=', Carbon::now())
+            ->whereDate('published_at', '<', $post->published_at)
+            ->orderBy('published_at', 'desc')
+            ->limit(1)
+            ->first();
+
+        $previous = Post::query()
+            ->where('active', '=', true)
+            ->whereDate('published_at', '<=', Carbon::now())
+            ->whereDate('published_at', '>', $post->published_at)
+            ->orderBy('published_at', 'asc')
+            ->limit(1)
+            ->first();
+
+        return view('posts.view', compact('post', 'previous', 'next'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function byCategory(Category $category)
     {
-        //
+        $posts = Post::query()
+            ->join('category_posts', 'posts.id', '=', 'category_posts.post_id')
+            ->where('category_posts.category_id', '=', $category->id)
+            ->where('active', '=', true)
+            ->whereDate('published_at', '<=', Carbon::now())
+            ->orderBy('published_at', 'desc')
+            ->paginate(10);
+
+        return view('posts.index', compact('posts', 'category'));
     }
 
     /**

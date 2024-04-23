@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout meta-description="THis is meta description.">
    <!-- Posts Section -->
    <section class="w-full md:w-2/3 flex flex-col items-center px-3">
 
@@ -10,4 +10,6 @@
     {{$posts->onEachSide(1)->links()}}
     
   </section>
+
+   <x-side-bar></x-side-bar>
 </x-app-layout>

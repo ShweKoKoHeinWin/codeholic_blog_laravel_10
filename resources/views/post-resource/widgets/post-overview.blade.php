@@ -1,4 +1,4 @@
-<x-filament-widgets::widget class="grid grid-cols-3 gap-3">
+<x-filament-widgets::widget class="grid grid-cols-3 gap-3" >
     <x-filament::section>
         <h2 class="text-lg sm:text-xl font-bold tracking-light">
             Views

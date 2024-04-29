@@ -13,7 +13,7 @@ class PostOverview extends BaseWidget
     public ?Model $record = null;
     protected static string $view = 'post-resource.widgets.post-overview';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 3;
 
     protected function getViewData(): array
     {

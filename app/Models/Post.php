@@ -39,9 +39,9 @@ class Post extends Model
         return $this->belongsToMany(Category::class, 'category_posts');
     }
 
-    public function shortBody()
+    public function shortBody($words = 30)
     {
-        return Str::words(strip_tags($this->body), 30);
+        return Str::words(strip_tags($this->body), $words);
     }
 
     public function getFormattedDate()
@@ -51,6 +51,9 @@ class Post extends Model
 
     public function getThumbnail()
     {
+        if (!$this->thumbnail) {
+            return  '/default_imgs/sun3.png';
+        }
         if (str_starts_with($this->thumbnail, 'http')) {
             return $this->thumbnail;
         }

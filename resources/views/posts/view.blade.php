@@ -23,7 +23,6 @@
       </div>
     </article>
 
- </section>
 
  <div class="w-full flex pt-6">
   @if ($previous)
@@ -52,6 +51,7 @@
  </div>
 
 
+</section>
 
 
   <x-side-bar></x-side-bar>

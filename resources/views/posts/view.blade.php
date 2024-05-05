@@ -50,6 +50,7 @@
   @endif
  </div>
 
+ <livewire:comments :post="$post"/>
 
 </section>
 
